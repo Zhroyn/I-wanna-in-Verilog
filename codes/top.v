@@ -1,29 +1,25 @@
 `timescale 1ns / 1ps
 
 module top(
-    input wire clk,
-    output wire hsync,
-    output wire vsync,
-    output wire [3:0] r,
-    output wire [3:0] g,
-    output wire [3:0] b
+    input clk,
+    input [15:0] SW,
+    output hsync,
+    output vsync,
+    output [3:0] r,
+    output [3:0] g,
+    output [3:0] b
     );
 
-    wire vga_clk;
-    wire update_clk;
-
-    clk_50mhz m0 (
+    wire [31:0] clk_div;
+    clkdiv m0 (
         .clk(clk),
-        .vga_clk(vga_clk)
-    );
-    clk_50hz m1 (
-        .clk(clk),
-        .update_clk(update_clk)
+        .clkdiv(clk_div)
     );
 
     render m2 (
         .clk(clk),
-        .vga_clk(vga_clk),
+        .clrn(SW[0]),
+        .vga_clk(clk_div[0]),
         .hsync(hsync),
         .vsync(vsync),
         .r(r),

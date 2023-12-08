@@ -14,7 +14,11 @@ def resize_image(im, fx=None, fy=None, width=None, height=None):
         im = cv2.resize(im, (width, height))
     return im
 
-def jpg_to_coe(im, save_path):
+def jpg_to_coe(image_path, save_path, fx=None, fy=None, width=None, height=None):
+    # Open and resize image
+    im = cv2.imread(image_path)[..., :3]
+    im = resize_image(im, fx, fy, width, height)
+
     # Convert the image to RGB444 format
     im_rgb444 = im.astype('uint8') >> 4
     h, w = im_rgb444.shape[:2]
@@ -31,6 +35,6 @@ def jpg_to_coe(im, save_path):
             f.write('\n')
 
 if __name__ == '__main__':
-    im = cv2.imread('pics/background.jpg')
-    im = resize_image(im, width=800, height=600)
-    jpg_to_coe(im, 'codes/background.coe')
+    image_path = 'pics/apple1.jpg'
+    save_path = 'codes/coe_files/apple.coe'
+    jpg_to_coe(image_path, save_path)

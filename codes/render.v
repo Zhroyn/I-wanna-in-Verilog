@@ -2,6 +2,7 @@
 
 module render(
     input clk,
+    input clrn,
     input vga_clk,
     output hsync,
     output vsync,
@@ -10,35 +11,40 @@ module render(
     output [3:0] b
     );
 
-    wire [9:0] pixel_x;
-    wire [9:0] pixel_y;
-    wire [15:0] addr;
-    wire [15:0] addra;
-    wire is_apple;
+    parameter SCREEN_W = 800;
+    parameter SCREEN_H = 600;
+    parameter APPLE_W = 22;
+    parameter APPLE_H = 22;
+
+    wire [18:0] col;
+    wire [18:0] row;
+
+    reg [18:0] pos_x = 100;
+    reg [18:0] pos_y = 100;
+
+    wire [18:0] addr = col - pos_x + (row - pos_y) * APPLE_W;
 
     vga_sync m0 (
         .vga_clk(vga_clk),
-        .rst(1'b0),
+        .clrn(clrn),
         .hsync(hsync),
         .vsync(vsync),
-        .pixel_x(pixel_x),
-        .pixel_y(pixel_y)
+        .col(col),
+        .row(row)
     );
 
-    reg [9:0] pos_x = 0;
-    reg [9:0] pos_y = 0;
-    assign addr = pixel_x - pos_x + (pixel_y - pos_y) ? 800 : 0;
-    assign addra = (addr < 484) ? addr : 0;
-    assign is_appple = (pixel_x - pos_x < 22 && pixel_x - pos_x > 0 &&
-                        pixel_y - pos_y < 22 && pixel_y - pos_y > 0) 
-                        ? 1'b1 : 1'b0;
+    wire is_apple = (col - pos_x >= 0 && col - pos_x < APPLE_W &&
+                    row - pos_y >= 0 && row - pos_y < APPLE_H) 
+                    ? 1'b1 : 1'b0;
+    wire [8:0] apple_addr = is_apple ? addr : 0;
+    wire [11:0] apple_rgb;
 
     apple m1 (
-        .addra(addra),
-        .douta(rgb_data),
+        .addra(apple_addr),
+        .douta(apple_rgb),
         .clka(clk)
     );
 
-    assign {r, g, b} = is_apple ? rgb_data : 12'h000;
+    assign {r, g, b} = is_apple ? apple_rgb : 12'h000;
 
 endmodule
