@@ -11,12 +11,12 @@ module top(
     );
 
     wire [31:0] clk_div;
-    clkdiv m0 (
+    clkdiv CLK_DIV (
         .clk(clk),
         .clkdiv(clk_div)
     );
 
-    render m2 (
+    render Render (
         .clk(clk),
         .clrn(SW[0]),
         .vga_clk(clk_div[0]),

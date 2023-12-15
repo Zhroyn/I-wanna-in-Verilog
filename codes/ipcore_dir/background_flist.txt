@@ -1,0 +1,16 @@
+# Output products list for <background>
+background/blk_mem_gen_v7_3_readme.txt
+background/doc/blk_mem_gen_v7_3_vinfo.html
+background/doc/pg058-blk-mem-gen.pdf
+background.asy
+background.gise
+background.mif
+background.ngc
+background.sym
+background.v
+background.veo
+background.xco
+background.xise
+background_flist.txt
+background_xmdf.tcl
+summary.log

@@ -10,7 +10,3 @@ codes/iseconfig
 codes/isim
 codes/xlnx_auto_0_xdb
 codes/xst
-
-codes/ipcore_dir/*
-!codes/ipcore_dir/*.mif
-!codes/ipcore_dir/*.xco

@@ -5,20 +5,20 @@ module vga_sync(
     input clrn,
     output reg hsync,
     output reg vsync,
-    output reg [18:0] col,
-    output reg [18:0] row
+    output reg [9:0] col,
+    output reg [9:0] row
     );
 
-    // 800x600 @ 75Hz
-    parameter H_SYNC = 80;
-    parameter H_BACK = 160;
+    // 800x600 @ 72Hz
+    parameter H_SYNC = 120;
+    parameter H_BACK = 64;
     parameter H_DISPLAY = 800;
-    parameter H_FRONT = 16;
+    parameter H_FRONT = 56;
 
-    parameter V_SYNC = 3;
-    parameter V_BACK = 21;
+    parameter V_SYNC = 6;
+    parameter V_BACK = 23;
     parameter V_DISPLAY = 600;
-    parameter V_FRONT = 1;
+    parameter V_FRONT = 37;
 
     reg [10:0] hcount = 0;
     always @(posedge vga_clk or negedge clrn) begin
@@ -46,8 +46,8 @@ module vga_sync(
 
     wire h_sync = (hcount >= H_SYNC);
     wire v_sync = (vcount >= V_SYNC);
-    wire [18:0] pixel_x = hcount - H_SYNC - H_BACK;
-    wire [18:0] pixel_y = vcount - V_SYNC - V_BACK;
+    wire [9:0] pixel_x = hcount - H_SYNC - H_BACK + 1;
+    wire [9:0] pixel_y = vcount - V_SYNC - V_BACK;
 
     always @(posedge vga_clk) begin
         col <= pixel_x;

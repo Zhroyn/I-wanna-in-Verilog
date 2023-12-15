@@ -1,4 +1,6 @@
+import os
 import cv2
+import numpy as np
 
 def resize_image(im, fx=None, fy=None, width=None, height=None):
     if im is None:
@@ -14,12 +16,9 @@ def resize_image(im, fx=None, fy=None, width=None, height=None):
         im = cv2.resize(im, (width, height))
     return im
 
-def jpg_to_coe(image_path, save_path, fx=None, fy=None, width=None, height=None):
-    # Open and resize image
-    im = cv2.imread(image_path)[..., :3]
-    im = resize_image(im, fx, fy, width, height)
-
+def jpg_to_coe(im, save_path):
     # Convert the image to RGB444 format
+    im[255 * 3 - np.sum(im, -1) < 54] = [255, 255, 255]
     im_rgb444 = im.astype('uint8') >> 4
     h, w = im_rgb444.shape[:2]
 
@@ -34,7 +33,23 @@ def jpg_to_coe(image_path, save_path, fx=None, fy=None, width=None, height=None)
                 f.write('{:03X},'.format(coe_value))
             f.write('\n')
 
+def resize_and_save(image_path, save_path, fx=None, fy=None, width=None, height=None):
+    im = cv2.imread(image_path)
+    if im is not None:
+        im = resize_image(im, fx, fy, width, height)
+        cv2.imwrite(save_path, im)
+
+def convert_and_save(image_path, save_path, fx=None, fy=None, width=None, height=None):
+    im = cv2.imread(image_path)
+    if im is not None:
+        im = resize_image(im, fx, fy, width, height)
+        jpg_to_coe(im, save_path)
+
 if __name__ == '__main__':
-    image_path = 'pics/apple1.jpg'
-    save_path = 'codes/coe_files/apple.coe'
-    jpg_to_coe(image_path, save_path)
+    images = ['running4.jpg', 'cloud1.jpg', 'jumping2.jpg', 'apple2.jpg', 'running1.jpg',
+              'falling1.jpg', 'falling2.jpg', 'junmping1.jpg', 'running2.jpg', 
+              'cloud2.jpg', 'apple1.jpg', 'running3.jpg']
+    for img in images:
+        image_path = os.path.join("pics", img)
+        coe_save_path = os.path.join("codes", "coe_files", img.replace("jpg", "coe"))
+        convert_and_save(image_path, coe_save_path)
