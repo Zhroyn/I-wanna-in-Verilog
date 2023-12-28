@@ -1,0 +1,17 @@
+# Output products list for <saved>
+_xmsgs/pn_parser.xmsgs
+saved/blk_mem_gen_v7_3_readme.txt
+saved/doc/blk_mem_gen_v7_3_vinfo.html
+saved/doc/pg058-blk-mem-gen.pdf
+saved.asy
+saved.gise
+saved.mif
+saved.ngc
+saved.sym
+saved.v
+saved.veo
+saved.xco
+saved.xise
+saved_flist.txt
+saved_xmdf.tcl
+summary.log

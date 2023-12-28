@@ -1,4 +1,5 @@
 # Output products list for <background>
+_xmsgs/pn_parser.xmsgs
 background/blk_mem_gen_v7_3_readme.txt
 background/doc/blk_mem_gen_v7_3_vinfo.html
 background/doc/pg058-blk-mem-gen.pdf

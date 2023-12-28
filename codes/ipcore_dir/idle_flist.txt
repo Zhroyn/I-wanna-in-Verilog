@@ -1,0 +1,16 @@
+# Output products list for <idle>
+_xmsgs/pn_parser.xmsgs
+idle/blk_mem_gen_v7_3_readme.txt
+idle/doc/blk_mem_gen_v7_3_vinfo.html
+idle/doc/pg058-blk-mem-gen.pdf
+idle.asy
+idle.gise
+idle.ngc
+idle.sym
+idle.v
+idle.veo
+idle.xco
+idle.xise
+idle_flist.txt
+idle_xmdf.tcl
+summary.log

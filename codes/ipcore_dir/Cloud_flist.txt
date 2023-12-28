@@ -1,0 +1,17 @@
+# Output products list for <Cloud>
+Cloud/blk_mem_gen_v7_3_readme.txt
+Cloud/doc/blk_mem_gen_v7_3_vinfo.html
+Cloud/doc/pg058-blk-mem-gen.pdf
+Cloud.asy
+Cloud.gise
+Cloud.mif
+Cloud.ngc
+Cloud.sym
+Cloud.v
+Cloud.veo
+Cloud.xco
+Cloud.xise
+Cloud_flist.txt
+Cloud_xmdf.tcl
+_xmsgs/pn_parser.xmsgs
+summary.log

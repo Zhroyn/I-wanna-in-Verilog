@@ -1,0 +1,17 @@
+# Output products list for <Apple>
+Apple/blk_mem_gen_v7_3_readme.txt
+Apple/doc/blk_mem_gen_v7_3_vinfo.html
+Apple/doc/pg058-blk-mem-gen.pdf
+Apple.asy
+Apple.gise
+Apple.mif
+Apple.ngc
+Apple.sym
+Apple.v
+Apple.veo
+Apple.xco
+Apple.xise
+Apple_flist.txt
+Apple_xmdf.tcl
+_xmsgs/pn_parser.xmsgs
+summary.log

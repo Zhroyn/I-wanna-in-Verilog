@@ -1,0 +1,17 @@
+# Output products list for <falling>
+_xmsgs/pn_parser.xmsgs
+falling/blk_mem_gen_v7_3_readme.txt
+falling/doc/blk_mem_gen_v7_3_vinfo.html
+falling/doc/pg058-blk-mem-gen.pdf
+falling.asy
+falling.gise
+falling.mif
+falling.ngc
+falling.sym
+falling.v
+falling.veo
+falling.xco
+falling.xise
+falling_flist.txt
+falling_xmdf.tcl
+summary.log

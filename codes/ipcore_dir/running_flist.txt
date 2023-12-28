@@ -1,0 +1,16 @@
+# Output products list for <running>
+_xmsgs/pn_parser.xmsgs
+running/blk_mem_gen_v7_3_readme.txt
+running/doc/blk_mem_gen_v7_3_vinfo.html
+running/doc/pg058-blk-mem-gen.pdf
+running.asy
+running.gise
+running.ngc
+running.sym
+running.v
+running.veo
+running.xco
+running.xise
+running_flist.txt
+running_xmdf.tcl
+summary.log

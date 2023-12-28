@@ -39,6 +39,16 @@ def resize_and_save(image_path, save_path, fx=None, fy=None, width=None, height=
         im = resize_image(im, fx, fy, width, height)
         cv2.imwrite(save_path, im)
 
+def compress_and_save(image_path, save_path, white_background=False):
+    im = cv2.imread(image_path)
+    if im is not None:
+        if white_background:
+            diff = 255 * 3 - np.sum(im, -1)
+            im[(diff > 0) & (diff < 5)] = [239, 239, 239]
+        im = im.astype('uint8') >> 4
+        im = im.astype('uint8') << 4
+        cv2.imwrite(save_path, im)
+
 def convert_and_save(image_path, save_path, fx=None, fy=None, width=None, height=None):
     im = cv2.imread(image_path)
     if im is not None:
@@ -46,10 +56,12 @@ def convert_and_save(image_path, save_path, fx=None, fy=None, width=None, height
         jpg_to_coe(im, save_path)
 
 if __name__ == '__main__':
-    images = ['running4.jpg', 'cloud1.jpg', 'jumping2.jpg', 'apple2.jpg', 'running1.jpg',
-              'falling1.jpg', 'falling2.jpg', 'junmping1.jpg', 'running2.jpg', 
-              'cloud2.jpg', 'apple1.jpg', 'running3.jpg']
+    images = ['cloud.bmp', 'apple.bmp', 'background.bmp',
+              'idle.bmp', 'running.bmp', 'jumping.bmp', 'falling.bmp',
+              'save.bmp', 'saved.bmp', 'gameover.bmp']
     for img in images:
         image_path = os.path.join("pics", img)
-        coe_save_path = os.path.join("codes", "coe_files", img.replace("jpg", "coe"))
+        coe_save_path = os.path.join("codes", "coe_files", img)
+        coe_save_path = coe_save_path.replace(".bmp", ".coe")
+        coe_save_path = coe_save_path.replace(".jpg", ".coe")
         convert_and_save(image_path, coe_save_path)
