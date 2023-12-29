@@ -9,7 +9,7 @@ module test_action_update;
     // Outputs
     wire direction;
     wire [1:0] action;
-    wire [3:0] is_move;
+    wire [3:0] move_signal;
 
     // Instantiate the Unit Under Test (UUT)
     action_update uut (
@@ -17,7 +17,7 @@ module test_action_update;
         .keys(keys),
         .direction(direction),
         .action(action),
-        .is_move(is_move)
+        .move_signal(move_signal)
     );
 
     integer i;

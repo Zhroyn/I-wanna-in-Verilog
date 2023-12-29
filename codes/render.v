@@ -47,8 +47,8 @@ module render
 
     kid kid (
         .clk(clk),
-        .toggle_clk(clkdiv[23]),
-        .update_clk(clkdiv[21]),
+        .toggle_clk(clkdiv[22]),
+        .update_clk(clkdiv[12]),
         .col(col),
         .row(row),
         .keys(keys),

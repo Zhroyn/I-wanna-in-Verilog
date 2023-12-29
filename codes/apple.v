@@ -23,11 +23,10 @@ module apple
     localparam screen_w = 800;
     localparam screen_h = 600;
 
-    integer pos_x = init_x;
-    integer pos_y = init_y;
-
     reg cnt = 0;
     reg is_triggered = 0;
+    reg [9:0] pos_x = init_x;
+    reg [9:0] pos_y = init_y;
 
     wire in_box;
     wire out_of_screen;
