@@ -5,9 +5,9 @@ module test_render;
     // Inputs
     reg clk;
     reg clrn;
-    reg vga_clk;
 
     // Outputs
+    wire [31:0] clk_div;
     wire hsync;
     wire vsync;
     wire [3:0] r;
@@ -15,10 +15,15 @@ module test_render;
     wire [3:0] b;
 
     // Instantiate the Unit Under Test (UUT)
-    render uut (
-        .clk(clk), 
-        .clrn(clrn), 
-        .vga_clk(vga_clk), 
+    clkdiv ClkDiv (
+        .clk(clk),
+        .clkdiv(clk_div)
+    );
+     
+    render Render (
+        .clk(clk),
+        .clkdiv(clk_div),
+        .clrn(clrn),
         .hsync(hsync), 
         .vsync(vsync), 
         .r(r), 
@@ -30,11 +35,9 @@ module test_render;
     initial begin
         clrn = 1;
         clk = 0;
-        vga_clk = 0;
         i = 0;
         #1;
-        for (i = 0; i < 1_000_000; i = i + 1) begin
-            vga_clk = ~vga_clk;
+        for (i = 0; i < 3_000_000; i = i + 1) begin
             clk = ~clk;
             #1;
         end

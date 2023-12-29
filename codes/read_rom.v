@@ -1,17 +1,16 @@
-`timescale 1ns / 1ps
-
-module read_rom(
+module read_rom
+(
     input clk,
     output [3:0] r,
     output [3:0] g,
     output [3:0] b
-    );
+);
 
     parameter MAX_ADDR = 800 * 600;
 
     reg [18:0] addr = 0;
-	 wire [11:0] rgb_data;
-	 
+    wire [11:0] rgb_data;
+
     always @(posedge clk) begin
         if (addr == MAX_ADDR) begin
             addr <= 0;
@@ -20,7 +19,7 @@ module read_rom(
         end
     end
 
-    background m1 (
+    running m1 (
         .addra(addr),
         .douta(rgb_data),
         .clka(clk)

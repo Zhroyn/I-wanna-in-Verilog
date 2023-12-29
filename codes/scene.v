@@ -1,5 +1,3 @@
-`timescale 1ns / 1ps
-
 module scene
 (
     input clk,
@@ -8,8 +6,8 @@ module scene
     output [11:0] scene_rgb
 );
 
-    parameter scene_w = 800;
-    parameter scene_h = 600;
+    localparam scene_w = 800;
+    localparam scene_h = 600;
 
     wire in_box;
     wire [18:0] scene_addr;

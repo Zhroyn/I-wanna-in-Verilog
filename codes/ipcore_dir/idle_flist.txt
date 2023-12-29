@@ -5,6 +5,7 @@ idle/doc/blk_mem_gen_v7_3_vinfo.html
 idle/doc/pg058-blk-mem-gen.pdf
 idle.asy
 idle.gise
+idle.mif
 idle.ngc
 idle.sym
 idle.v

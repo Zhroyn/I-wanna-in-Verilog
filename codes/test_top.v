@@ -30,7 +30,7 @@ module test_top;
         i = 0;
         SW = 16'hFFFF;
         #1;
-        for (i = 0; i < 5_000_000; i = i + 1) begin
+        for (i = 0; i < 3_000_000; i = i + 1) begin
             clk = ~clk;
             #1;
         end

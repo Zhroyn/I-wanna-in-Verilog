@@ -1,12 +1,11 @@
-`timescale 1ns / 1ps
-
 module vga_sync(
     input vga_clk,
     input clrn,
     output reg hsync,
     output reg vsync,
     output reg [9:0] col,
-    output reg [9:0] row
+    output reg [9:0] row,
+    output in_screen
     );
 
     // 800x600 @ 72Hz
@@ -21,6 +20,16 @@ module vga_sync(
     parameter V_FRONT = 37;
 
     reg [10:0] hcount = 0;
+    reg [10:0] vcount = 0;
+
+    wire h_sync = (hcount >= H_SYNC);
+    wire v_sync = (vcount >= V_SYNC);
+    wire [9:0] pixel_x = hcount - H_SYNC - H_BACK + 1;
+    wire [9:0] pixel_y = vcount - V_SYNC - V_BACK;
+    
+    assign in_screen = (hcount > H_SYNC + H_BACK) && (hcount < H_SYNC + H_BACK + H_DISPLAY) &&
+                       (vcount > V_SYNC + V_BACK - 1) && (vcount < V_SYNC + V_BACK + V_DISPLAY);
+
     always @(posedge vga_clk or negedge clrn) begin
         if (!clrn) begin
             hcount <= 0;
@@ -31,7 +40,6 @@ module vga_sync(
         end
     end
 
-    reg [10:0] vcount = 0;
     always @(posedge vga_clk or negedge clrn) begin
         if (!clrn) begin
             vcount <= 0;
@@ -43,11 +51,6 @@ module vga_sync(
             end
         end
     end
-
-    wire h_sync = (hcount >= H_SYNC);
-    wire v_sync = (vcount >= V_SYNC);
-    wire [9:0] pixel_x = hcount - H_SYNC - H_BACK + 1;
-    wire [9:0] pixel_y = vcount - V_SYNC - V_BACK;
 
     always @(posedge vga_clk) begin
         col <= pixel_x;

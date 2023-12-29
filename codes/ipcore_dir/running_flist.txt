@@ -5,6 +5,7 @@ running/doc/blk_mem_gen_v7_3_vinfo.html
 running/doc/pg058-blk-mem-gen.pdf
 running.asy
 running.gise
+running.mif
 running.ngc
 running.sym
 running.v

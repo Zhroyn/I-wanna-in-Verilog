@@ -51,6 +51,10 @@ utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path idle.asy
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type asy
 incr fcount
 
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path idle.mif
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type AnyView
+incr fcount
+
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path idle.ngc
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type ngc
 incr fcount

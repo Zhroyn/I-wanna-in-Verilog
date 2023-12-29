@@ -1,10 +1,10 @@
-`timescale 1ns / 1ps
-
 module apple
 #(
     parameter init_x = 0,
     parameter init_y = 0,
-    parameter direction = 1
+    parameter trig_x = 0,
+    parameter trig_y = 1,
+    parameter move_dir = 1
 )
 (
     input clk,
@@ -13,14 +13,15 @@ module apple
     input [9:0] col,
     input [9:0] row,
     input [9:0] kid_x,
+    input [9:0] kid_y,
     output is_apple,
     output [11:0] apple_rgb
 );
 
-    parameter apple_w = 22;
-    parameter apple_h = 24;
-    parameter screen_w = 800;
-    parameter screen_h = 600;
+    localparam apple_w = 22;
+    localparam apple_h = 24;
+    localparam screen_w = 800;
+    localparam screen_h = 600;
 
     integer pos_x = init_x;
     integer pos_y = init_y;
@@ -31,37 +32,30 @@ module apple
     wire in_box;
     wire out_of_screen;
     wire [10:0] apple_addr;
-    wire [11:0] apple1_rgb;
-    wire [11:0] apple2_rgb;
 
     assign in_box = (col - pos_x >= 0 && col - pos_x < apple_w &&
                      row - pos_y >= 0 && row - pos_y < apple_h) 
                      ? 1'b1 : 1'b0;
+    assign apple_addr = in_box ? col - pos_x + (row - pos_y) * apple_w + cnt * apple_w * apple_h : 1'b0;
+    assign is_apple = (in_box && apple_rgb ^ 12'hFFF) ? 1'b1 : 1'b0;
     assign out_of_screen = (pos_y + apple_h < 0 || pos_y >= screen_h) ? 1'b1 : 1'b0;
-    assign apple_addr = in_box ? col - pos_x + (row - pos_y) * apple_w : 0;
-    assign apple_rgb = (cnt == 0) ? apple1_rgb : apple2_rgb;
 
     always @(posedge toggle_clk) begin
         cnt <= cnt + 1;
     end
 
-    always @(posedge update_clk) begin
-        if (kid_x >= pos_x - apple_w && kid_x < pos_x + apple_w) begin
-            is_triggered = 1;
-        end
-        if (is_triggered && !out_of_screen) begin
-            pos_y = pos_y + direction;
-        end
-    end
+    // always @(posedge update_clk) begin
+    //     if (kid_x >= pos_x - apple_w && kid_x < pos_x + apple_w) begin
+    //         is_triggered = 1;
+    //     end
+    //     if (is_triggered && !out_of_screen) begin
+    //         pos_y = pos_y + direction;
+    //     end
+    // end
 
-    apple1 Apple1 (
+    Apple Apple (
         .addra(apple_addr),
-        .douta(apple1_rgb),
-        .clka(clk)
-    );
-    apple2 Apple2 (
-        .addra(apple_addr),
-        .douta(apple2_rgb),
+        .douta(apple_rgb),
         .clka(clk)
     );
 
