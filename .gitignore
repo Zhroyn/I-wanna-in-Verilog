@@ -2,6 +2,7 @@ codes/*
 !codes/*.v
 !codes/*.ucf
 !codes/*.coe
+!codes/*.bit
 
 !codes/*/
 codes/_ngo

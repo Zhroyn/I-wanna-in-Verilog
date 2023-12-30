@@ -7,7 +7,9 @@ module kid
     input [9:0] row,
     input [3:0] keys,
     output is_kid,
-    output [11:0] kid_rgb
+    output [11:0] kid_rgb,
+    output [9:0] kid_x,
+    output [9:0] kid_y
 );
 
     localparam kid_w = 31;
@@ -33,6 +35,8 @@ module kid
                      (kid_action == 2'b01) ? run_rgb :
                      (kid_action == 2'b10) ? jump_rgb :
                      (kid_action == 2'b11) ? fall_rgb : 12'hFFF;
+    assign kid_x = pos_x + 15;
+    assign kid_y = pos_y + 11;
 
     always @(posedge toggle_clk) begin
         cnt <= cnt + 1;

@@ -48,12 +48,14 @@ module render
     kid kid (
         .clk(clk),
         .toggle_clk(clkdiv[22]),
-        .update_clk(clkdiv[12]),
+        .update_clk(clkdiv[11]),
         .col(col),
         .row(row),
         .keys(keys),
         .is_kid(is_kid),
-        .kid_rgb(kid_rgb)
+        .kid_rgb(kid_rgb),
+        .kid_x(kid_x),
+        .kid_y(kid_y)
     );
 
     cloud #(.init_x(64), .init_y(91)) cloud0 (
@@ -84,7 +86,7 @@ module render
     apple #(.init_x(59), .init_y(449), .trig_x(20), .trig_y(-1), .move_dir(1)) apple0 (
         .clk(clk),
         .toggle_clk(clkdiv[24]),
-        .update_clk(clkdiv[21]),
+        .update_clk(clkdiv[17]),
         .col(col),
         .row(row),
         .kid_x(kid_x),
@@ -95,7 +97,7 @@ module render
     apple #(.init_x(253), .init_y(480), .trig_x(-25), .trig_y(1), .move_dir(1)) apple1 (
         .clk(clk),
         .toggle_clk(clkdiv[24]),
-        .update_clk(clkdiv[21]),
+        .update_clk(clkdiv[17]),
         .col(col),
         .row(row),
         .kid_x(kid_x),
@@ -106,7 +108,7 @@ module render
     apple #(.init_x(290), .init_y(448), .trig_x(-25), .trig_y(-1), .move_dir(-1)) apple2 (
         .clk(clk),
         .toggle_clk(clkdiv[24]),
-        .update_clk(clkdiv[21]),
+        .update_clk(clkdiv[17]),
         .col(col),
         .row(row),
         .kid_x(kid_x),
@@ -117,7 +119,7 @@ module render
     apple #(.init_x(344), .init_y(466), .trig_x(10), .trig_y(1), .move_dir(1)) apple3 (
         .clk(clk),
         .toggle_clk(clkdiv[24]),
-        .update_clk(clkdiv[21]),
+        .update_clk(clkdiv[17]),
         .col(col),
         .row(row),
         .kid_x(kid_x),
@@ -128,7 +130,7 @@ module render
     apple #(.init_x(377), .init_y(466), .trig_x(-20), .trig_y(1), .move_dir(1)) apple4 (
         .clk(clk),
         .toggle_clk(clkdiv[24]),
-        .update_clk(clkdiv[21]),
+        .update_clk(clkdiv[17]),
         .col(col),
         .row(row),
         .kid_x(kid_x),
@@ -139,7 +141,7 @@ module render
     apple #(.init_x(419), .init_y(454), .trig_x(20), .trig_y(-1), .move_dir(-1)) apple5 (
         .clk(clk),
         .toggle_clk(clkdiv[24]),
-        .update_clk(clkdiv[21]),
+        .update_clk(clkdiv[17]),
         .col(col),
         .row(row),
         .kid_x(kid_x),
@@ -150,7 +152,7 @@ module render
     apple #(.init_x(434), .init_y(482), .trig_x(10), .trig_y(1), .move_dir(1)) apple6 (
         .clk(clk),
         .toggle_clk(clkdiv[24]),
-        .update_clk(clkdiv[21]),
+        .update_clk(clkdiv[17]),
         .col(col),
         .row(row),
         .kid_x(kid_x),
@@ -161,7 +163,7 @@ module render
     apple #(.init_x(474), .init_y(466), .trig_x(-20), .trig_y(1), .move_dir(1)) apple7 (
         .clk(clk),
         .toggle_clk(clkdiv[24]),
-        .update_clk(clkdiv[21]),
+        .update_clk(clkdiv[17]),
         .col(col),
         .row(row),
         .kid_x(kid_x),
@@ -172,7 +174,7 @@ module render
     apple #(.init_x(501), .init_y(463), .trig_x(25), .trig_y(-1), .move_dir(-1)) apple8 (
         .clk(clk),
         .toggle_clk(clkdiv[24]),
-        .update_clk(clkdiv[21]),
+        .update_clk(clkdiv[17]),
         .col(col),
         .row(row),
         .kid_x(kid_x),
@@ -183,7 +185,7 @@ module render
     apple #(.init_x(546), .init_y(483), .trig_x(10), .trig_y(1), .move_dir(1)) apple9 (
         .clk(clk),
         .toggle_clk(clkdiv[24]),
-        .update_clk(clkdiv[21]),
+        .update_clk(clkdiv[17]),
         .col(col),
         .row(row),
         .is_apple(is_apple[9]),
@@ -194,7 +196,7 @@ module render
     apple #(.init_x(595), .init_y(461), .trig_x(-25), .trig_y(1), .move_dir(1)) apple10 (
         .clk(clk),
         .toggle_clk(clkdiv[24]),
-        .update_clk(clkdiv[21]),
+        .update_clk(clkdiv[17]),
         .col(col),
         .is_apple(is_apple[10]),
         .row(row),
@@ -205,7 +207,7 @@ module render
     apple #(.init_x(602), .init_y(422), .trig_x(-32), .trig_y(1), .move_dir(1)) apple11 (
         .clk(clk),
         .toggle_clk(clkdiv[24]),
-        .update_clk(clkdiv[21]),
+        .update_clk(clkdiv[17]),
         .is_apple(is_apple[11]),
         .col(col),
         .row(row),
@@ -216,7 +218,7 @@ module render
     apple #(.init_x(629), .init_y(422), .trig_x(40), .trig_y(-1), .move_dir(-1)) apple12 (
         .clk(clk),
         .toggle_clk(clkdiv[24]),
-        .update_clk(clkdiv[21]),
+        .update_clk(clkdiv[17]),
         .is_apple(is_apple[12]),
         .col(col),
         .row(row),
@@ -227,7 +229,7 @@ module render
     apple #(.init_x(672), .init_y(457), .trig_x(-10), .trig_y(1), .move_dir(1)) apple13 (
         .clk(clk),
         .toggle_clk(clkdiv[24]),
-        .update_clk(clkdiv[21]),
+        .update_clk(clkdiv[17]),
         .is_apple(is_apple[13]),
         .col(col),
         .row(row),
@@ -238,7 +240,7 @@ module render
     apple #(.init_x(745), .init_y(436), .trig_x(0), .trig_y(-1), .move_dir(-1)) apple14 (
         .clk(clk),
         .toggle_clk(clkdiv[24]),
-        .update_clk(clkdiv[21]),
+        .update_clk(clkdiv[17]),
         .is_apple(is_apple[14]),
         .col(col),
         .row(row),

@@ -32,30 +32,18 @@ module ps2_drv (
         shift2 <= {shift1[0], shift2[10:1]};
     end
 
-    always @(negedge clk) begin
+    always @(posedge clk) begin
         if (scan1 == 8'h1C) begin
-            if (scan2 == 8'hF0)
-                keys[0] <= 0;
-            else
-                keys[0] <= 1;
+            keys[3] <= (scan2 == 8'hF0) ? 1'b0: 1'b1;
         end
         if (scan1 == 8'h23) begin
-            if (scan2 == 8'hF0)
-                keys[1] <= 0;
-            else
-                keys[1] <= 1;
+            keys[2] <= (scan2 == 8'hF0) ? 1'b0: 1'b1;
         end
         if (scan1 == 8'h1D) begin
-            if (scan2 == 8'hF0)
-                keys[2] <= 0;
-            else
-                keys[2] <= 1;
+            keys[1] <= (scan2 == 8'hF0) ? 1'b0: 1'b1;
         end
         if (scan1 == 8'h29) begin
-            if (scan2 == 8'hF0)
-                keys[3] <= 0;
-            else
-                keys[3] <= 1;
+            keys[0] <= (scan2 == 8'hF0) ? 1'b0: 1'b1;
         end
     end
 endmodule

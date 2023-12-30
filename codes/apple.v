@@ -43,14 +43,18 @@ module apple
         cnt <= cnt + 1;
     end
 
-    // always @(posedge update_clk) begin
-    //     if (kid_x >= pos_x - apple_w && kid_x < pos_x + apple_w) begin
-    //         is_triggered = 1;
-    //     end
-    //     if (is_triggered && !out_of_screen) begin
-    //         pos_y = pos_y + direction;
-    //     end
-    // end
+    always @(posedge clk) begin
+        if ((kid_x == pos_x + trig_x) && 
+            ((trig_y == 1 && kid_y > pos_y || trig_y == -1 && kid_y < pos_y))) begin
+            is_triggered = 1;
+        end
+    end
+
+    always @(posedge update_clk) begin
+        if (is_triggered && !out_of_screen) begin
+            pos_y = pos_y + move_dir;
+        endx
+    end
 
     Apple Apple (
         .addra(apple_addr),
