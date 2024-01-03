@@ -8,11 +8,10 @@ module ps2_drv (
     reg ps2d;
     reg [7:0] ps2c_fliter;
     reg [7:0] ps2d_fliter;
-    reg [10:0] shift1;
-    reg [10:0] shift2;
+    reg [21:0] shift;
 
-    wire [7:0] scan1 = shift1[8:1];
-    wire [7:0] scan2 = shift2[8:1];
+    wire [7:0] scan1 = shift[8:1];
+    wire [7:0] scan2 = shift[19:12];
 
     always @(posedge clk) begin
         ps2c_fliter <= {ps2_clk, ps2c_fliter[7:1]};
@@ -28,8 +27,7 @@ module ps2_drv (
     end
 
     always @(negedge ps2c) begin
-        shift1 <= {ps2d, shift1[10:1]};
-        shift2 <= {shift1[0], shift2[10:1]};
+        shift <= {ps2d, shift[21:1]};
     end
 
     always @(posedge clk) begin
@@ -42,7 +40,7 @@ module ps2_drv (
         if (scan1 == 8'h1D) begin
             keys[1] <= (scan2 == 8'hF0) ? 1'b0: 1'b1;
         end
-        if (scan1 == 8'h29) begin
+        if (scan1 == 8'h2D) begin
             keys[0] <= (scan2 == 8'hF0) ? 1'b0: 1'b1;
         end
     end

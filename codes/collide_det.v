@@ -7,10 +7,10 @@ module collide_det (
     output reg [3:0] is_collide
 );
 
-    localparam bound_t_num = 7;
-    localparam bound_b_num = 11;
-    localparam bound_l_num = 10;
-    localparam bound_r_num = 10;
+    parameter bound_t_num = 7;
+    parameter bound_b_num = 11;
+    parameter bound_l_num = 10;
+    parameter bound_r_num = 10;
 
     integer i;
 
@@ -20,8 +20,6 @@ module collide_det (
     reg [29:0] bound_r [bound_r_num-1:0];
 
     initial begin
-        is_collide = 4'b0000;
-
         bound_t[0] = {10'd60 , 10'd125, 10'd416};
         bound_t[1] = {10'd28 , 10'd60 , 10'd448};
         bound_t[2] = {10'd645, 10'd711, 10'd384};
@@ -42,7 +40,7 @@ module collide_det (
         bound_b[9] = {10'd385, 10'd418, 10'd318};
         bound_b[10] = {10'd287, 10'd353, 10'd318};
 
-        bound_l[0] = {10'd0  , 10'd318, 10'd0  };
+        bound_l[0] = {10'd0  , 10'd318, 10'd9  };
         bound_l[1] = {10'd318, 10'd383, 10'd28 };
         bound_l[2] = {10'd383, 10'd416, 10'd125};
         bound_l[3] = {10'd416, 10'd448, 10'd60 };

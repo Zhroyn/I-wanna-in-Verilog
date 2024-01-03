@@ -2,37 +2,22 @@
 
 module test_action_update;
 
-    // Inputs
-    reg clk;
-    reg [3:0] keys;
+    integer i = 0;
 
-    // Outputs
-    wire direction;
-    wire [1:0] action;
-    wire [3:0] move_signal;
+    reg [9:0] a;
+    reg [9:0] b;
 
-    // Instantiate the Unit Under Test (UUT)
-    action_update uut (
-        .clk(clk),
-        .keys(keys),
-        .direction(direction),
-        .action(action),
-        .move_signal(move_signal)
-    );
+    wire [9:0] c = a - b - 2;
+    wire d = a - b - 2 < 2;
 
-    integer i;
     initial begin
-        clk = 0;
-        keys = 4'b0001;
-        i = 0;
+        a = 5;
+        b = 0;
         #100;
-        for (i = 0; i < 1000; i = i + 1) begin
-            clk = ~clk;
-            if (i == 500) begin
-                keys = 4'b0000;
-            end
-            #1;
+        for (i = 0; i < 10; i = i + 1) begin
+            b = b + 1;
+            #100;
         end
     end
-      
+
 endmodule

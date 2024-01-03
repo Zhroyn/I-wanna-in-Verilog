@@ -1,4 +1,4 @@
-module vga_sync(
+module vga_sync (
     input vga_clk,
     input clrn,
     output reg hsync,
@@ -6,7 +6,7 @@ module vga_sync(
     output reg [9:0] col,
     output reg [9:0] row,
     output in_screen
-    );
+);
 
     // 800x600 @ 72Hz
     parameter H_SYNC = 120;

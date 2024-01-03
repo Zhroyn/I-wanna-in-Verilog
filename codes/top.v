@@ -1,9 +1,8 @@
-module top
-(
+module top (
     input clk,
     input ps2_clk,
     input ps2_data,
-    input [15:0] SW,
+    input [1:0] SW,
     output hsync,
     output vsync,
     output [3:0] r,
@@ -44,6 +43,7 @@ module top
 
     render Renderer (
         .clk(clk),
+        .rst(SW[1]),
         .clkdiv(clk_div),
         .keys(keys),
         .col(col),

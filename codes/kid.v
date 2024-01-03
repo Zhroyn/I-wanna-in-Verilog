@@ -1,6 +1,6 @@
-module kid
-(
+module kid (
     input clk,
+    input rst,
     input toggle_clk,
     input update_clk,
     input [9:0] col,
@@ -29,7 +29,7 @@ module kid
                      row - pos_y >= 0 && row - pos_y < kid_h) 
                      ? 1'b1 : 1'b0;
     assign kid_addr_x = kid_dir ? col - pos_x : kid_w - 1 - (col - pos_x);
-    assign kid_addr = in_box ? kid_addr_x + (row - pos_y) * kid_w + cnt * kid_w * kid_h : 1'b0;
+    assign kid_addr = in_box ? kid_addr_x + (row - pos_y) * kid_w + cnt * kid_w * kid_h : 0;
     assign is_kid = (in_box && kid_rgb ^ 12'hFFF) ? 1'b1 : 1'b0;
     assign kid_rgb = (kid_action == 2'b00) ? idle_rgb :
                      (kid_action == 2'b01) ? run_rgb :
@@ -53,6 +53,7 @@ module kid
 
     state_update KidStateUpdater (
         .clk(update_clk),
+        .rst(rst),
         .keys(keys),
         .is_collide(is_collide),
         .direction(kid_dir),
