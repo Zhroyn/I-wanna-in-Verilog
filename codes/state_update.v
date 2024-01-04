@@ -24,10 +24,10 @@ module state_update (
     reg [3:0] move_signal = 4'b0000;    // up, down, left, right
     reg [3:0] will_move = 4'b0000;
 
-    wire left, right, jump, restart;
+    wire left, right, jump;
     wire up_signal, down_signal, left_signal, right_signal;
 
-    assign {left, right, jump, restart} = keys;
+    assign {left, right, jump} = keys[2:0];
     assign {up_signal, down_signal, left_signal, right_signal} = move_signal;
 
     initial begin

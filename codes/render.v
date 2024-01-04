@@ -15,9 +15,10 @@ module render
     integer i;
     reg game_over = 0;
 
-    wire is_kid, is_end_scene, restart, game_reset;
+    wire is_kid, is_end_scene, is_button;
+    wire restart, game_reset;
     wire [9:0] kid_x, kid_y;
-    wire [11:0] scene_rgb, end_scene_rgb, kid_rgb;
+    wire [11:0] scene_rgb, end_scene_rgb, kid_rgb, button_rgb;
     wire [cloud_num-1:0] is_cloud;
     wire [cloud_num*12-1:0] cloud_rgb;
     wire [apple_num-1:0] is_apple;
@@ -39,6 +40,9 @@ module render
                 rgb_out = apple_rgb[(i*12+11)-:12];
             end
         end
+        if (is_button) begin
+            rgb_out = button_rgb;
+        end
         if (is_kid) begin
             rgb_out = kid_rgb;
         end
@@ -48,11 +52,15 @@ module render
     end
 
     always @(posedge clk) begin
-        if (restart) begin
-            game_over = 1'b1;
-        end
-        if (game_over && keys[0]) begin
+        if (rst) begin
             game_over = 1'b0;
+        end else begin
+            if (restart) begin
+                game_over = 1'b1;
+            end
+            if (game_over && keys[3]) begin
+                game_over = 1'b0;
+            end
         end
     end
 
@@ -83,6 +91,17 @@ module render
         .kid_rgb(kid_rgb),
         .kid_x(kid_x),
         .kid_y(kid_y)
+    );
+
+    button button (
+        .clk(clk),
+        .rst(game_reset),
+        .col(col),
+        .row(row),
+        .kid_x(kid_x),
+        .kid_y(kid_y),
+        .is_button(is_button),
+        .button_rgb(button_rgb)
     );
 
     cloud #(.init_x(64), .init_y(91)) cloud0 (

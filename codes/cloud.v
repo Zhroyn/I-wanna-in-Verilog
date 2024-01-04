@@ -25,7 +25,7 @@ module cloud
     assign in_box = (col - pos_x >= 0 && col - pos_x < cloud_w &&
                      row - pos_y >= 0 && row - pos_y < cloud_h) 
                      ? 1'b1 : 1'b0;
-    assign cloud_addr = in_box ? col - pos_x + (row - pos_y) * cloud_w + cnt * cloud_w * cloud_h : 0;
+    assign cloud_addr = in_box ? col - pos_x + (row - pos_y) * cloud_w + cnt * cloud_w * cloud_h : 1'b0;
     assign is_cloud = in_box;
 
     always @(posedge toggle_clk) begin

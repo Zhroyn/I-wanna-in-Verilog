@@ -38,7 +38,7 @@ module apple
     assign in_box = (col - pos_x >= 0 && col - pos_x < apple_w &&
                      row - pos_y >= 0 && row - pos_y < apple_h) 
                      ? 1'b1 : 1'b0;
-    assign apple_addr = in_box ? col - pos_x + (row - pos_y) * apple_w + cnt * apple_w * apple_h : 0;
+    assign apple_addr = in_box ? col - pos_x + (row - pos_y) * apple_w + cnt * apple_w * apple_h : 1'b0;
     assign is_apple = (in_box && apple_rgb ^ 12'hFFF) ? 1'b1 : 1'b0;
     assign out_of_screen = (pos_y + apple_h < 0 || pos_y >= screen_h) ? 1'b1 : 1'b0;
 
@@ -57,7 +57,7 @@ module apple
         if (rst) begin
             is_triggered = 1'b0;
         end else if ((kid_x == pos_x + trig_x) && 
-            ((trig_y == 1 && kid_y > pos_y || trig_y == -1 && kid_y < pos_y))) begin
+                     ((trig_y == 1 && kid_y > pos_y || trig_y == -1 && kid_y < pos_y))) begin
             is_triggered = 1'b1;
         end
     end

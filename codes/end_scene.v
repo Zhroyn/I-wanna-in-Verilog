@@ -17,7 +17,7 @@ module end_scene (
     assign in_box = (col - pos_x >= 0 && col - pos_x < gameover_w &&
                      row - pos_y >= 0 && row - pos_y < gameover_h) 
                      ? 1'b1 : 1'b0;
-    assign gameover_addr = in_box ? (col - pos_x) + (row - pos_y) * gameover_w : 0;
+    assign gameover_addr = in_box ? (col - pos_x) + (row - pos_y) * gameover_w : 1'b0;
     assign is_end_scene = (in_box && end_scene_rgb ^ 12'hFFF) ? 1'b1 : 1'b0;
 
     gameover Gameover (
