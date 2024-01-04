@@ -7,9 +7,10 @@ module kid (
     input [9:0] row,
     input [3:0] keys,
     output is_kid,
-    output [11:0] kid_rgb,
+    output kid_dir,
     output [9:0] kid_x,
-    output [9:0] kid_y
+    output [9:0] kid_y,
+    output [11:0] kid_rgb
 );
 
     localparam kid_w = 31;
@@ -17,7 +18,7 @@ module kid (
 
     reg [1:0] cnt = 0;
 
-    wire in_box, kid_dir;
+    wire in_box;
     wire [1:0] kid_action;
     wire [3:0] is_collide;
     wire [9:0] pos_x, pos_y;

@@ -2,7 +2,7 @@ module ps2_drv (
     input clk,
     input ps2_clk,
     input ps2_data,
-    output reg [3:0] keys
+    output reg [5:0] keys
 );
     reg ps2c;
     reg ps2d;
@@ -35,15 +35,21 @@ module ps2_drv (
     always @(posedge clk) begin
         if (cnt == 0 && shift1[0] == 0 && shift1[10] == 1 && ^shift1[9:1]) begin
             if (scan1 == 8'h2D) begin   // R
-                keys[3] <= (scan2 == 8'hF0) ? 1'b0: 1'b1;
+                keys[5] <= (scan2 == 8'hF0) ? 1'b0: 1'b1;
             end
-            if (scan1 == 8'h1C) begin   // A
-                keys[2] <= (scan2 == 8'hF0) ? 1'b0: 1'b1;
-            end
-            if (scan1 == 8'h23) begin   // D
-                keys[1] <= (scan2 == 8'hF0) ? 1'b0: 1'b1;
+            if (scan1 == 8'h29) begin   // SPACE
+                keys[4] <= (scan2 == 8'hF0) ? 1'b0: 1'b1;
             end
             if (scan1 == 8'h1D) begin   // W
+                keys[3] <= (scan2 == 8'hF0) ? 1'b0: 1'b1;
+            end
+            if (scan1 == 8'h1B) begin   // S
+                keys[2] <= (scan2 == 8'hF0) ? 1'b0: 1'b1;
+            end
+            if (scan1 == 8'h1C) begin   // A
+                keys[1] <= (scan2 == 8'hF0) ? 1'b0: 1'b1;
+            end
+            if (scan1 == 8'h23) begin   // D
                 keys[0] <= (scan2 == 8'hF0) ? 1'b0: 1'b1;
             end
         end

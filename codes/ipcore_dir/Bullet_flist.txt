@@ -1,0 +1,17 @@
+# Output products list for <Bullet>
+Bullet/blk_mem_gen_v7_3_readme.txt
+Bullet/doc/blk_mem_gen_v7_3_vinfo.html
+Bullet/doc/pg058-blk-mem-gen.pdf
+Bullet.asy
+Bullet.gise
+Bullet.mif
+Bullet.ngc
+Bullet.sym
+Bullet.v
+Bullet.veo
+Bullet.xco
+Bullet.xise
+Bullet_flist.txt
+Bullet_xmdf.tcl
+_xmsgs/pn_parser.xmsgs
+summary.log

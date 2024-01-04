@@ -11,7 +11,7 @@ module top (
 );
 
     wire in_screen;
-    wire [3:0] keys;
+    wire [5:0] keys;
     wire [9:0] col;
     wire [9:0] row;
     wire [11:0] rgb_out;
@@ -43,9 +43,9 @@ module top (
 
     render Renderer (
         .clk(clk),
-        .rst(SW[1]),
+        .rst(SW[1] | keys[5]),
         .clkdiv(clk_div),
-        .keys(keys),
+        .keys(keys[4:0]),
         .col(col),
         .row(row),
         .rgb_out(rgb_out)

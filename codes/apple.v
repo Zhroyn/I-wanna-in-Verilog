@@ -3,7 +3,6 @@ module apple
     parameter init_x = 0,
     parameter init_y = 0,
     parameter trig_x = 0,
-    parameter trig_y = 1,
     parameter move_dir = 1
 )
 (
@@ -57,7 +56,7 @@ module apple
         if (rst) begin
             is_triggered = 1'b0;
         end else if ((kid_x == pos_x + trig_x) && 
-                     ((trig_y == 1 && kid_y > pos_y || trig_y == -1 && kid_y < pos_y))) begin
+                     ((move_dir == 1 && kid_y > pos_y || move_dir == -1 && kid_y < pos_y))) begin
             is_triggered = 1'b1;
         end
     end

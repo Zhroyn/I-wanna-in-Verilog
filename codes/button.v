@@ -5,6 +5,8 @@ module button (
     input [9:0] row,
     input [9:0] kid_x,
     input [9:0] kid_y,
+    input [39:0] bullet_x,
+    input [39:0] bullet_y,
     output is_button,
     output [11:0] button_rgb
 );
@@ -13,7 +15,8 @@ module button (
     parameter button_h = 32;
     parameter pos_x = 95;
     parameter pos_y = 320;
-
+    
+    integer i;
     reg is_triggered = 0;
 
     wire in_box;
@@ -28,17 +31,21 @@ module button (
     assign is_button = (in_box && button_rgb ^ 12'hFFF) ? 1'b1 : 1'b0;
     assign button_rgb = is_triggered ? saved_rgb : unsaved_rgb;
 
-    assign bound_l = pos_x - 10'd3;
-    assign bound_r = pos_x + button_w + 10'd3;
-    assign bound_t = pos_y - 10'd7;
-    assign bound_b = pos_y + button_h + 10'd7;
+    assign bound_l = pos_x - 10'd1;
+    assign bound_r = pos_x + button_w + 10'd1;
+    assign bound_t = pos_y - 10'd1;
+    assign bound_b = pos_y + button_h + 10'd1;
 
     always @(posedge clk) begin
         if (rst) begin
             is_triggered = 1'b0;
-        end else if (kid_x >= bound_l && kid_x < bound_r &&
-                     kid_y >= bound_t && kid_y < bound_b) begin
-            is_triggered = 1'b1;
+        end else if (kid_x < 300 && kid_y < 400) begin
+            for (i = 0; i < 4; i = i + 1) begin
+                if ((bullet_x[(i*10+9)-:10] >= bound_l && bullet_x[(i*10+9)-:10] < bound_r &&
+                     bullet_y[(i*10+9)-:10] >= bound_t && bullet_y[(i*10+9)-:10] < bound_b)) begin
+                    is_triggered = 1'b1;
+                end
+            end
         end
     end
 

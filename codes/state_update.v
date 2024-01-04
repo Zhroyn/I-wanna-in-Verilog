@@ -13,7 +13,7 @@ module state_update (
     parameter init_pos_y = 556;
     parameter init_x_inv = 200;
     parameter init_jump_inv = 20;
-    parameter init_fall_inv = 110;
+    parameter init_fall_inv = 105;
 
     integer i;
     integer will_move_filter [3:0];
@@ -24,10 +24,10 @@ module state_update (
     reg [3:0] move_signal = 4'b0000;    // up, down, left, right
     reg [3:0] will_move = 4'b0000;
 
-    wire left, right, jump;
+    wire jump, fall, left, right;
     wire up_signal, down_signal, left_signal, right_signal;
 
-    assign {left, right, jump} = keys[2:0];
+    assign {jump, fall, left, right} = keys;
     assign {up_signal, down_signal, left_signal, right_signal} = move_signal;
 
     initial begin
@@ -55,7 +55,7 @@ module state_update (
             end else begin
                 idle_signal = 1'b1;
             end
-            if (jump == 1'b1) begin
+            if (jump) begin
                 jump_signal = 1'b1;
                 jump_state = 2'b01;
             end
@@ -64,7 +64,9 @@ module state_update (
                 fall_signal = 1'b1;
             end
 
-            if (jump == 1'b1) begin
+            if (fall) begin
+                fall_signal = 1'b1;
+            end else if (jump) begin
                 if (jump_state == 2'b00 || jump_state == 2'b10) begin
                     jump_signal = 1'b1;
                     jump_state[0] = 1'b1;
@@ -153,7 +155,7 @@ module state_update (
             if (right_signal) begin
                 pos_x = pos_x + 1;
             end
-            if (up_signal == 1'b1 && !is_collide[3]) begin
+            if (up_signal && !is_collide[3]) begin
                 pos_y = pos_y - 1;
                 speed_inv[3] = speed_inv[3] + 1;
                 if (speed_inv[3] == init_fall_inv) begin
@@ -162,7 +164,7 @@ module state_update (
                     will_move[3:2] = 2'b01;
                 end
             end
-            if (down_signal == 1'b1 && !is_collide[2]) begin
+            if (down_signal && !is_collide[2]) begin
                 pos_y = pos_y + 1;
                 if (speed_inv[2] > init_fall_inv) begin
                     speed_inv[2] = speed_inv[2] - 1;

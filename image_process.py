@@ -56,7 +56,7 @@ def convert_and_save(image_path, save_path, fx=None, fy=None, width=None, height
         jpg_to_coe(im, save_path)
 
 if __name__ == '__main__':
-    images = ['cloud.bmp', 'apple.bmp', 'background.bmp',
+    images = ['cloud.bmp', 'apple.bmp', 'bullet.bmp', 'background.bmp',
               'idle.bmp', 'running.bmp', 'jumping.bmp', 'falling.bmp',
               'save.bmp', 'saved.bmp', 'gameover.bmp']
     for img in images:
