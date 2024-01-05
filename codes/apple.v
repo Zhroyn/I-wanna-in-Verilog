@@ -24,10 +24,11 @@ module apple
     localparam screen_w = 800;
     localparam screen_h = 600;
 
-    reg cnt = 0;
-    reg is_triggered = 0;
-    reg [9:0] pos_x = init_x;
-    reg [9:0] pos_y = init_y;
+    integer pos_x = init_x;
+    integer pos_y = init_y;
+
+    reg cnt = 1'b0;
+    reg is_triggered = 1'b0;
 
     wire in_box;
     wire out_of_screen;
@@ -41,10 +42,10 @@ module apple
     assign is_apple = (in_box && apple_rgb ^ 12'hFFF) ? 1'b1 : 1'b0;
     assign out_of_screen = (pos_y + apple_h < 0 || pos_y >= screen_h) ? 1'b1 : 1'b0;
 
-    assign bound_l = pos_x - 10'd3;
-    assign bound_r = pos_x + apple_w + 10'd3;
-    assign bound_t = pos_y - 10'd7;
-    assign bound_b = pos_y + apple_h + 10'd7;
+    assign bound_l = pos_x - 3;
+    assign bound_r = pos_x + apple_w + 3;
+    assign bound_t = pos_y - 7;
+    assign bound_b = pos_y + apple_h + 7;
     assign is_collide = (kid_x >= bound_l && kid_x < bound_r &&
                          kid_y >= bound_t && kid_y < bound_b) ? 1'b1 : 1'b0;
 

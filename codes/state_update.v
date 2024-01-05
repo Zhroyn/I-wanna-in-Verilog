@@ -50,21 +50,22 @@ module state_update (
 
         if (is_collide[2]) begin
             jump_state = 2'b00;
-            if (left ^ right) begin
-                run_signal = 1'b1;
-            end else begin
-                idle_signal = 1'b1;
-            end
-            if (jump) begin
+            if (jump && action != 2'b10) begin
                 jump_signal = 1'b1;
                 jump_state = 2'b01;
+            end else begin
+                if (left ^ right) begin
+                    if (action != 2'b01) begin
+                        run_signal = 1'b1;
+                    end
+                end else begin
+                    if (action != 2'b00) begin
+                        idle_signal = 1'b1;
+                    end
+                end
             end
         end else begin
-            if (jump_state == 2'b00) begin
-                fall_signal = 1'b1;
-            end
-
-            if (fall) begin
+            if (fall || is_collide[3] || (jump_state == 2'b00 && action != 2'b11)) begin
                 fall_signal = 1'b1;
             end else if (jump) begin
                 if (jump_state == 2'b00 || jump_state == 2'b10) begin
@@ -77,9 +78,54 @@ module state_update (
                 end
             end
         end
+    end
 
-        if (is_collide[3]) begin
-            fall_signal = 1'b1;
+    always @(negedge clk) begin
+        if (rst) begin
+            action <= 2'b00;
+            pos_x <= init_pos_x;
+            pos_y <= init_pos_y;
+            will_move[3:2] <= 2'b00;
+        end else begin
+            if (idle_signal) begin
+                action <= 2'b00;
+            end
+            else if (run_signal) begin
+                action <= 2'b01;
+            end
+            else if (jump_signal) begin
+                action <= 2'b10;
+                will_move[3:2] <= 2'b10;
+                speed_inv[3] <= init_jump_inv;
+                pos_y <= pos_y - 1;
+            end
+            else if (fall_signal) begin
+                action <= 2'b11;
+                will_move[3:2] <= 2'b01;
+                speed_inv[2] <= init_fall_inv;
+            end
+
+            else if (left_signal) begin
+                pos_x <= pos_x - 1;
+            end
+            else if (right_signal) begin
+                pos_x <= pos_x + 1;
+            end
+            else if (up_signal && !is_collide[3]) begin
+                pos_y <= pos_y - 1;
+                speed_inv[3] <= speed_inv[3] + 1;
+                if (speed_inv[3] == init_fall_inv) begin
+                    action <= 2'b11;
+                    speed_inv[2] <= init_fall_inv;
+                    will_move[3:2] <= 2'b01;
+                end
+            end
+            else if (down_signal && !is_collide[2]) begin
+                pos_y <= pos_y + 1;
+                if (speed_inv[2] > init_fall_inv) begin
+                    speed_inv[2] <= speed_inv[2] - 1;
+                end
+            end
         end
     end
 
@@ -121,54 +167,6 @@ module state_update (
                 will_move_filter[i] = 8'h00;
             end else begin
                 move_signal[i] = 1'b0;
-            end
-        end
-    end
-
-    always @(negedge clk) begin
-        if (rst) begin
-            action = 2'b00;
-            pos_x = init_pos_x;
-            pos_y = init_pos_y;
-            will_move[3:2] = 2'b00;
-        end else begin
-            if (idle_signal) begin
-                action = 2'b00;
-            end
-            if (run_signal) begin
-                action = 2'b01;
-            end
-            if (jump_signal) begin
-                action = 2'b10;
-                will_move[3:2] = 2'b10;
-                speed_inv[3] = init_jump_inv;
-            end
-            if (fall_signal) begin
-                action = 2'b11;
-                will_move[3:2] = 2'b01;
-                speed_inv[2] = init_fall_inv;
-            end
-
-            if (left_signal) begin
-                pos_x = pos_x - 1;
-            end
-            if (right_signal) begin
-                pos_x = pos_x + 1;
-            end
-            if (up_signal && !is_collide[3]) begin
-                pos_y = pos_y - 1;
-                speed_inv[3] = speed_inv[3] + 1;
-                if (speed_inv[3] == init_fall_inv) begin
-                    action = 2'b11;
-                    speed_inv[2] = init_fall_inv;
-                    will_move[3:2] = 2'b01;
-                end
-            end
-            if (down_signal && !is_collide[2]) begin
-                pos_y = pos_y + 1;
-                if (speed_inv[2] > init_fall_inv) begin
-                    speed_inv[2] = speed_inv[2] - 1;
-                end
             end
         end
     end

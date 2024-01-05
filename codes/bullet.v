@@ -9,8 +9,8 @@ module bullet (
     input kid_dir,
     input shoot,
     output is_bullet,
-    output [10:0] bullet_x,
-    output [10:0] bullet_y,
+    output [9:0] bullet_x,
+    output [9:0] bullet_y,
     output [11:0] bullet_rgb
 );
 
@@ -33,7 +33,7 @@ module bullet (
                      ? 1'b1 : 1'b0;
     assign bullet_addr = in_box ? col - pos_x + (row - pos_y) * bullet_w : 1'b0;
     assign is_bullet = (in_box && bullet_rgb ^ 12'hFFF) ? 1'b1 : 1'b0;
-    assign out_of_screen = (pos_x < -bullet_w || pos_x >= screen_w) ? 1'b1 : 1'b0;
+    assign out_of_screen = (pos_x + bullet_w < 0 || pos_x >= screen_w) ? 1'b1 : 1'b0;
     assign bullet_x = pos_x + 1;
     assign bullet_y = pos_y + 1;
 
@@ -43,11 +43,9 @@ module bullet (
             pos_y = screen_h + 1;
         end else begin
             if (shoot) begin
-                if (out_of_screen) begin
-                    move_dir = kid_dir ? 1 : -1;
-                    pos_x = kid_x;
-                    pos_y = kid_y;
-                end
+                move_dir = kid_dir ? 1 : -1;
+                pos_x = kid_x;
+                pos_y = kid_y;
             end else begin
                 if (!out_of_screen) begin
                     pos_x = pos_x + move_dir;

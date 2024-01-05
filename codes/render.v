@@ -3,7 +3,7 @@ module render
     input clk,
     input rst,
     input [31:0] clkdiv,
-    input [4:0] keys,
+    input [5:0] keys,
     input [9:0] col,
     input [9:0] row,
     output reg [11:0] rgb_out
@@ -18,7 +18,7 @@ module render
     reg [1:0] bullet_cnt = 0;
 
     wire is_kid, is_end_scene;
-    wire restart, game_reset, kid_dir;
+    wire restart, game_reset, kid_dir, shoot;
     wire [9:0] kid_x, kid_y;
     wire [11:0] scene_rgb, end_scene_rgb, kid_rgb, button_rgb;
 
@@ -34,6 +34,7 @@ module render
     wire [apple_num-1:0] is_collide;
     wire [apple_num*12-1:0] apple_rgb;
 
+    assign shoot = keys[5];
     assign restart = |is_collide || kid_y > 600;
     assign game_reset = game_over || rst;
 
@@ -73,7 +74,7 @@ module render
         end
     end
 
-    always @(posedge keys[4]) begin
+    always @(posedge shoot) begin
         bullet_cnt = bullet_cnt + 1'b1;
     end
 
@@ -153,7 +154,7 @@ module render
         .kid_x(kid_x),
         .kid_y(kid_y),
         .kid_dir(kid_dir),
-        .shoot(bullet_cnt == 0 && keys[4] && !game_over),
+        .shoot(bullet_cnt == 0 && shoot && !game_over),
         .is_bullet(is_bullet[0]),
         .bullet_x(bullet_x[9:0]),
         .bullet_y(bullet_y[9:0]),
@@ -161,13 +162,14 @@ module render
     );
     bullet bullet1 (
         .clk(clk),
+        .rst(rst),
         .update_clk(clkdiv[17]),
         .col(col),
         .row(row),
         .kid_x(kid_x),
         .kid_y(kid_y),
         .kid_dir(kid_dir),
-        .shoot(bullet_cnt == 1 && keys[4] && !game_over),
+        .shoot(bullet_cnt == 1 && shoot && !game_over),
         .is_bullet(is_bullet[1]),
         .bullet_x(bullet_x[19:10]),
         .bullet_y(bullet_y[19:10]),
@@ -181,7 +183,7 @@ module render
         .kid_x(kid_x),
         .kid_y(kid_y),
         .kid_dir(kid_dir),
-        .shoot(bullet_cnt == 2 && keys[4] && !game_over),
+        .shoot(bullet_cnt == 2 && shoot && !game_over),
         .is_bullet(is_bullet[2]),
         .bullet_x(bullet_x[29:20]),
         .bullet_y(bullet_y[29:20]),
@@ -195,7 +197,7 @@ module render
         .kid_x(kid_x),
         .kid_y(kid_y),
         .kid_dir(kid_dir),
-        .shoot(bullet_cnt == 3 && keys[4] && !game_over),
+        .shoot(bullet_cnt == 3 && shoot && !game_over),
         .is_bullet(is_bullet[3]),
         .bullet_x(bullet_x[39:30]),
         .bullet_y(bullet_y[39:30]),

@@ -43,9 +43,9 @@ module top (
 
     render Renderer (
         .clk(clk),
-        .rst(SW[1] | keys[5]),
+        .rst(SW[1] | keys[4]),
         .clkdiv(clk_div),
-        .keys(keys[4:0]),
+        .keys(keys),
         .col(col),
         .row(row),
         .rgb_out(rgb_out)
