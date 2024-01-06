@@ -12,8 +12,8 @@ module state_update (
     parameter init_pos_x = 200;
     parameter init_pos_y = 556;
     parameter init_x_inv = 200;
-    parameter init_jump_inv = 20;
-    parameter init_fall_inv = 105;
+    parameter init_jump_inv = 42;
+    parameter init_fall_inv = 128;
 
     integer i;
     integer will_move_filter [3:0];
@@ -66,7 +66,9 @@ module state_update (
             end
         end else begin
             if (fall || is_collide[3] || (jump_state == 2'b00 && action != 2'b11)) begin
-                fall_signal = 1'b1;
+                if (action != 2'b11) begin
+                    fall_signal = 1'b1;
+                end
             end else if (jump) begin
                 if (jump_state == 2'b00 || jump_state == 2'b10) begin
                     jump_signal = 1'b1;
@@ -122,7 +124,7 @@ module state_update (
             end
             else if (down_signal && !is_collide[2]) begin
                 pos_y <= pos_y + 1;
-                if (speed_inv[2] > init_fall_inv) begin
+                if (speed_inv[2] > init_jump_inv) begin
                     speed_inv[2] <= speed_inv[2] - 1;
                 end
             end
@@ -156,17 +158,17 @@ module state_update (
     always @(posedge clk) begin
         for (i = 0; i < 4; i = i + 1) begin
             if (will_move[i] == 1'b1 && !is_collide[i]) begin
-                will_move_filter[i] = will_move_filter[i] + 1'b1;
+                will_move_filter[i] <= will_move_filter[i] + 1'b1;
             end else begin
-                will_move_filter[i] = 8'h00;
+                will_move_filter[i] <= 8'h00;
             end
         end
         for (i = 0; i < 4; i = i + 1) begin
             if (will_move_filter[i] == speed_inv[i]) begin
-                move_signal[i] = 1'b1;
-                will_move_filter[i] = 8'h00;
+                move_signal[i] <= 1'b1;
+                will_move_filter[i] <= 8'h00;
             end else begin
-                move_signal[i] = 1'b0;
+                move_signal[i] <= 1'b0;
             end
         end
     end

@@ -17,10 +17,10 @@ module render
     reg game_over = 0;
     reg [1:0] bullet_cnt = 0;
 
-    wire is_kid, is_end_scene;
+    wire is_kid, is_end_scene, is_title;
     wire restart, game_reset, kid_dir, shoot;
     wire [9:0] kid_x, kid_y;
-    wire [11:0] scene_rgb, end_scene_rgb, kid_rgb, button_rgb;
+    wire [11:0] title_rgb, scene_rgb, end_scene_rgb, kid_rgb, button_rgb;
 
     wire [cloud_num-1:0] is_cloud;
     wire [cloud_num*12-1:0] cloud_rgb;
@@ -61,6 +61,9 @@ module render
         if (is_kid) begin
             rgb_out = kid_rgb;
         end
+        if (is_title) begin
+            rgb_out = title_rgb;
+        end
         if (is_end_scene && game_over) begin
             rgb_out = end_scene_rgb;
         end
@@ -77,6 +80,13 @@ module render
     always @(posedge shoot) begin
         bullet_cnt = bullet_cnt + 1'b1;
     end
+
+    title title (
+        .col(col),
+        .row(row),
+        .is_title(is_title),
+        .title_rgb(title_rgb)
+    );
 
     scene scene (
         .clk(clk),
